@@ -1,0 +1,71 @@
+
+Il Laptop 192.168.100.100 vuole connettersi al server 192.168.200.200 esterno alla propria rete
+
+Livello di Applicazione:
+-Viene creata la richiesta per una connessione al server
+
+Livello di Trasporto:
+-Viene creato un pacchetto TCP per cominciare il processo di "Three-way-handshake"
+-Setta la porta di origine: 1026 (random) e di destinazione:80 (Standard Http)
+-Infine setta l'ACK number a 0 e il Flag Syn a 1 (necessari al "Three-way-handshake")
+ 
+Livello di Rete:
+-Viene settato l'ip di origine a 192.168.100.100 (quello della macchina) e quello destinatario a 192.168.100.200 (quello del server)
+-Siccome l'ip destinatario non è presente nella sottorete viene impostato come next hop il default gateway (192.168.100.1)
+
+Livello Data:
+-Siccome il next hop id è riconosciuto nella tabella ARP viene impostato come MAC destinatario quello corrispondente: 0060.475B.B801 (router) e quello di origine viene impostato a 00E0.F7BB.CD62 (il proprio)
+
+Livello Fisico:
+-Invia il pacchetto nella rete
+
+Il pacchetto arriva così allo Switch che procede a leggerlo.
+Al livello data siccome trova una corrispondenza con il MAC destinatario nella propria MAC table, interrompe il processo, e lo rinvia al livello Fisico il quale procede a inviarlo verso il router
+
+Arrivato al router
+
+Livello Data
+ 
+-Siccome il destination MAC address coincide decapsula il pacchetto e lo invia al livello superiore
+
+Livello di Rete
+
+-Controlla che il destination ip sia nella sua tabella
+-Trovata la corrispondenza il pacchetto viene rinviato a livello inferiore
+
+Livello Data
+-Imposta il MAC destinatario a quello presente nella propria tabella: 0060.3E4D.E53C e quell di origine al proprio: 0060.475B.B802
+
+Viene inviato così alla nuova rete passando per uno switch che funziona come l'ultimo e arriva infine alla propria destinazione 192.168.200.200
+
+Livello Data
+-Il MAC destinatario coincide con il proprio quindi decapsula il pacchetto e procede al livello superiore
+
+Livello di Rete
+-L'ip destinatario corrisponde col proprio quindi decapsula il pacchetto e procede al livello superiore
+
+Livello di Trasporto
+-Il sistema riceve il segmento TCP nella porta 80
+-Legge i dati necessari alla connessione
+-La connessione viene accettata e imposta il connection state a SYN_RECEIVED
+-Crea a sua volta un pacchetto tcp per continuare il "Three-way-handshake" impostando i flag SYN e ACK a 1
+-Imposta il sequence number a 0 e ACK number a 1 (Sequence number ricevuto + 1)
+
+
+Da qua il pacchetto procede come descritto precedentemente fino ad arrivare al laptop 192.168.100.100
+
+Arrivato al layer di Trasporto
+
+-Legge i dati, imposta la connection state a ESTABLISHED e crea l'ultimo pacchetto necessario al "Three-way-handshake"
+-Imposta il flag ACK a 1
+-Imposta il sequence number a 1 e l'ACK number a 1 (Sequence number ricevuto + 1)
+
+Questo pacchetto una volta ricevuto dal server viene convalidato e la connection state è settata a Established anche per il server
+
+Il laptop dopo aver inviato il pacchetto di conferma invia anche un pacchetto che contiene la richiesta http da parte sua
+Questo pacchetto viene trasmesso nello stesso modo nella rete fino a raggiungere il server il quale a sua volta risponderà con un pacchetto conenente la risposta http
+
+Il laptop riceve infine il pacchetto e una volta arrivato al livello di applicazione può mostrare nel web browser la risposta http ricevuta
+
+A richiesta completata la connessione viene interrota svolgendo un altra volta un procedimento alla "Three-way-handshake", stavolta con flag Fin e Ack a 1, garantendo che la connessione venga chiusa
+
