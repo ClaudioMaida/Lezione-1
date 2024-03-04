@@ -1,0 +1,48 @@
+                                     +-----------+
+                                     | Internet  |
+                                     +-----------+
+                                           |
+                                    (Firewall Perimetrale)
+                                           |
+                                           |
+                                           |
+                        +------------------+----------------------+
+                        |                                         |
+                        |                                         |
+                        |                                         |
+        +-------------------------------+                  +--------------+
+        | DMZ                           |                  | Rete Interna |
+        | - Server Web                  |                  | - NAS        |
+        | - Server di Posta Elettronica |                  +--------------+
+        +-------------------------------+           
+                                            
+Zona di Internet: Separata dalla rete per limitare l'accesso diretto alle risorse
+Firewall Perimetrale: Si trova tra la zona di internet e le altre zona, filtra e controlla il traffico di rete in entrata e uscita
+DMZ: Zona che ospita servizi accessibili al pubblico come il server web e di posta elettronica.
+    La separazione della DMZ dal resto della rete aiuta a ridurre il rischio di compromissione della sicurezza della rete interna in caso di attacchi diretti ai servizi pubblici.
+Rete Interna: Contiene risorse e dati sensibili, protetta dal firewall e separata dalla dmz, per garantire che solo gli utenti autorizzati possano accederci
+NAS: Collocato nella rete interna per proteggerlo dagli accessi esterni
+
+-------------------------------------Oppure------------------------------------------      
+                                    
+Se abbiamo bisogno di una struttura più sicura, utilizzando 2 firewall, 
+ possiamo ottenere una rete multi-tier DMZ che rende ancora più difficile l'accesso alla rete interna dall'esterno
+
+                                     +-----------+
+                                     | Internet  |
+                                     +-----------+
+                                           |
+                                    (Firewall Perimetrale)
+                                           |
+                                    +-------------------------------+
+                                    | Zona DMZ                      |
+                                    | - Server Web                  |
+                                    | - Server di Posta Elettronica |
+                                    +-------------------------------+
+                                           |
+                                      (Firewall)
+                                           |
+                                     +--------------+
+                                     | Rete Interna |
+                                     | - NAS        |
+                                     +--------------+
