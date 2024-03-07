@@ -4,7 +4,7 @@
 
 //Ho usato due constanti per rendere più accessibili future modifiche
 
-const int nDomande = 7;
+const int nDomande = 3;
 
 //Le domande le ho raccolte in una matrice di stringhe
 const char *quiz[7][3] = {
@@ -94,10 +94,10 @@ void playQuiz(){
     //controlla il risultato ottenuto e si complimenta in base alla media 
     if((score/nDomande)==1){
         printf("\nWOW hai totalizzato %d/%d punti, le sapevi tutte!\nO hai imbrogliato...",score,nDomande);
-    }else if((score/nDomande)<0.5&&(score/nDomande)>0){
-        printf("\nInsomma potevi impegnarti di piu'...\nHai totalizzato %d/%d punti",score,nDomande);
     }else if(score==0){
         printf("\nFai sul serio?\nHai totalizzato %d/%d punti",score,nDomande);
+    }else if(((float)score/(float)nDomande)<0.5){
+        printf("\nInsomma potevi impegnarti di piu'...\nHai totalizzato %d/%d punti",score,nDomande);
     }else{
         printf("\nComplimenti!\nHai totalizzato %d/%d punti",score,nDomande);
     }
