@@ -4,7 +4,7 @@
 
 //Ho usato due constanti per rendere più accessibili future modifiche
 
-const int nDomande = 3;
+const int nDomande = 7;
 
 //Le domande le ho raccolte in una matrice di stringhe
 const char *quiz[7][3] = {
