@@ -1,0 +1,130 @@
+//Relazione compito S2L5
+
+---Analisi Codice----
+Il codice mostra un menu all'utente il quale può scegliere una delle 3 opzioni con le lettere a,b e c
+a)Chiede all'utente due numeri e ne stampa il prodotto 
+b)Chiede all'utende numeratore e denominatore e stampa la divisione
+c)Permette all'utente di inserire una stringa
+
+
+----Eventuali Correzioni------
+
+-Si può mettere il main in fondo al codice per evitare di dover dichiarare i prototipi
+
+
+--Main---
+
+-Lo scanf di scelta deve essere fatto con %c
+-Nello switch avrei messo un toupper(scelta), aggiungendo la libreria <ctype.h>,così da poter leggere la scelta dell'utente anche sia in minuscolo
+-Manca il caso default nello switch
+-Dopo la lettura del char utilizzerei un getchar() per evitare problemi di input buffer
+
+--Moltiplica--
+
+-Non ha senso dichiarare solo b a 0, in questo caso puoi farne a meno visto che l'assegnazione sarà subito dopo
+-Si potrebbe togliere lo "short" dai due int (a,b). e dal int prodotto, (potendo optare anche per un long per il risultato)  ,cos'ì da poter permettere una gestione di numeri più grandiì
+-Nello scanf di a, bisogna usare "%d"
+
+
+--Divisione--
+
+-Non ha senso dichiarare solo b a 0, in questo caso puoi farne a meno visto che l'assegnazione sarà subito dopo
+-Per dividere si usa il simbolo "/" non "%" che da solo il mod (resto della divisione)
+-Necessario mettere un if/else o un do/while per prevenire l'inserimento di 0 come denominatore
+-Trasformerei tutti gli int in float per poter così dare un risultato con la virgola mobile
+
+--InsStringa--
+
+-Stringa può contenere solo 9 caratteri o aumenterei il limite o metterei un massimo numero di caratteri inseribili nello scanf con %9
+-Dopo la lettura della stringa utilizzerei un getchar() per evitare problemi di input buffer
+-Essendo una stringa non è necessario utilizzare il & nello scanf di stringa
+-Aggiungerei un printf per stampare all'utente la stringa appena inserita
+-Aggiunto allo scanf della stringa un "[^\n]" per permettere all'utente di inserire anche gli spazi nella stringa
+
+
+----------------Una possibile soluzione:----------------------
+
+#include <stdio.h>
+#include <ctype.h>
+
+void menu ()
+{
+	printf ("Benvenuto, sono un assistente digitale, posso aiutarti a sbrigare alcuni compiti\n");
+	printf ("Come posso aiutarti?\n");
+	printf ("A >> Moltiplicare due numeri\nB >> Dividere due numeri\nC >> Inserire una stringa\n");
+
+}
+
+
+void moltiplica ()
+{
+	int  a,b;
+	printf ("Inserisci i due numeri da moltiplicare:");
+	scanf ("%d", &a);
+	scanf ("%d", &b);
+
+	int prodotto = a * b;
+
+	printf ("Il prodotto tra %d e %d e': %d", a,b,prodotto);
+}
+
+
+void dividi ()
+{
+        float  a,b;
+        printf ("Inserisci il numeratore:");
+        scanf ("%f", &a);
+	printf ("Inserisci il denominatore:");
+        scanf ("%f", &b);
+
+	if(b!=0){
+        	float divisione = a / b;
+
+        	printf ("La divisione tra %.2f e %.2f e': %.2f", a,b,divisione);
+	}else{
+		printf("Impossibile dividere per 0");
+	}
+}
+
+
+
+
+
+void ins_string () 
+{
+	char stringa[10];
+        printf ("Inserisci la stringa:");
+        scanf ("%9[^\n]s", stringa);
+	getchar();
+	printf("Hai inserito: %s", stringa);
+
+}
+
+int main () 
+
+{
+	char scelta = {'\0'};
+	menu ();
+	scanf ("%c", &scelta);
+	getchar();
+
+	switch (toupper(scelta))
+	{
+		case 'A':
+		moltiplica();
+		break;
+		case 'B':
+                dividi();
+                break;
+		case 'C':
+                ins_string();
+                break;
+		default:
+			printf("Hai deciso di uscire");
+	}
+
+return 0;
+
+}
+
+
